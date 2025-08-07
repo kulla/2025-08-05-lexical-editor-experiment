@@ -140,10 +140,7 @@ export default function ToolbarPlugin() {
         <UnderlineIcon />
       </button>
       <button
-        onClick={() => {
-          console.log('Add exercise clicked')
-          insertExercise(editor)
-        }}
+        onClick={() => insertExercise(editor)}
         className="toolbar-item spaced active"
         aria-label="Add exercise"
         type="button"
