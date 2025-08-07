@@ -13,7 +13,12 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import ToolbarPlugin from './plugins/ToolbarPlugin'
-import { ExerciseNode, SolutionNode, TaskNode } from './plugins/exercise'
+import {
+  ExerciseNode,
+  ExerciseNodeTransformations,
+  SolutionNode,
+  TaskNode,
+} from './plugins/exercise'
 
 export default function App() {
   const [editorState, setEditorState] = useState<unknown>(null)
@@ -47,6 +52,7 @@ export default function App() {
           />
           <HistoryPlugin />
           <AutoFocusPlugin />
+          <ExerciseNodeTransformations />
           <MyOnChangePlugin onChange={setEditorState} />
         </LexicalComposer>
       </section>

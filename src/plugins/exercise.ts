@@ -1,10 +1,13 @@
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
   ElementNode,
   type SerializedElementNode,
   type LexicalEditor,
   $getRoot,
   $createParagraphNode,
+  LexicalNode,
 } from 'lexical'
+import { useEffect } from 'react'
 
 export function insertExercise(editor: LexicalEditor): void {
   editor.update(() => {
@@ -23,6 +26,9 @@ export function insertExercise(editor: LexicalEditor): void {
 }
 
 export class ExerciseNode extends ElementNode {
+  removeChild(child: LexicalNode): void {
+    throw new Error('Method not implemented.')
+  }
   static getType(): string {
     return 'exercise'
   }
@@ -132,4 +138,38 @@ export class SolutionNode extends ElementNode {
       version: 1,
     }
   }
+}
+
+export function ExerciseNodeTransformations() {
+  const [editor] = useLexicalComposerContext()
+
+  useEffect(() => {
+    editor.registerNodeTransform(ExerciseNode, (node) => {
+      console.log('ExerciseNodeTransformations', node)
+      const children = node.getChildren()
+
+      console.log('ExerciseNodeTransformations', children)
+
+      if (
+        children.length !== 2 ||
+        children[0].getType() !== 'task' ||
+        children[1].getType() !== 'solution'
+      ) {
+        const taskNode =
+          children.find((child) => child.getType() === 'task') || new TaskNode()
+        const solutionNode =
+          children.find((child) => child.getType() === 'solution') ||
+          new SolutionNode()
+
+        for (const child of children) {
+          child.remove()
+        }
+
+        node.append(taskNode)
+        node.append(solutionNode)
+      }
+    })
+  }, [editor])
+
+  return null
 }
