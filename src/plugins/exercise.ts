@@ -11,8 +11,9 @@ import {
   $getSelection,
   $isRangeSelection,
   KEY_BACKSPACE_COMMAND,
+  KEY_DELETE_COMMAND,
 } from 'lexical'
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 
 export function insertExercise(editor: LexicalEditor): void {
   editor.update(() => {
@@ -211,32 +212,62 @@ export function ExerciseNodeTransformations() {
     })
   }, [editor])
 
+  const createPreventListener = useCallback(
+    (isBackwards: boolean) => (event: KeyboardEvent) => {
+      const selection = $getSelection()
+
+      if (!$isRangeSelection(selection)) return false
+
+      const { anchor } = selection
+      const anchorNode = anchor.getNode()
+      const parent = anchorNode.getParent()
+
+      if (parent === null) return false
+
+      if (
+        isBackwards &&
+        (parent.getPreviousSibling() !== null || anchor.offset !== 0)
+      ) {
+        return false
+      }
+
+      if (
+        !isBackwards &&
+        (parent.getNextSibling() !== null ||
+          anchor.offset !== anchorNode.getTextContentSize())
+      ) {
+        return false
+      }
+
+      if (
+        parent.getParent()?.getType() === 'solution' ||
+        parent.getParent()?.getType() === 'task'
+      ) {
+        // Prevent deletion in TaskNode or SolutionNode
+        event.preventDefault()
+        return true
+      }
+
+      return false
+    },
+    [],
+  )
+
   useEffect(() => {
     return editor.registerCommand(
       KEY_BACKSPACE_COMMAND,
-      (event) => {
-        const selection = $getSelection()
-
-        if (!$isRangeSelection(selection)) return false
-
-        const { anchor } = selection
-        const anchorNode = anchor.getNode()
-
-        if (true && anchor.offset !== 0) return false
-
-        const parent = anchorNode.getParent()?.getParent()
-
-        if (parent?.getType() === 'solution' || parent?.getType() === 'task') {
-          // Prevent deletion in TaskNode or SolutionNode
-          event.preventDefault()
-          return true
-        }
-
-        return false
-      },
+      createPreventListener(true),
       COMMAND_PRIORITY_HIGH,
     )
-  }, [editor])
+  }, [editor, createPreventListener])
+
+  useEffect(() => {
+    return editor.registerCommand(
+      KEY_DELETE_COMMAND,
+      createPreventListener(false),
+      COMMAND_PRIORITY_HIGH,
+    )
+  }, [editor, createPreventListener])
 
   return null
 }
