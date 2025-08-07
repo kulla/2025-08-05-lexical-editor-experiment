@@ -6,6 +6,11 @@ import {
   $getRoot,
   $createParagraphNode,
   $createTextNode,
+  COMMAND_PRIORITY_HIGH,
+  DELETE_CHARACTER_COMMAND,
+  $getSelection,
+  $isRangeSelection,
+  KEY_BACKSPACE_COMMAND,
 } from 'lexical'
 import { useEffect } from 'react'
 
@@ -204,6 +209,33 @@ export function ExerciseNodeTransformations() {
         node.append(solutionNode)
       }
     })
+  }, [editor])
+
+  useEffect(() => {
+    return editor.registerCommand(
+      KEY_BACKSPACE_COMMAND,
+      (event) => {
+        const selection = $getSelection()
+
+        if (!$isRangeSelection(selection)) return false
+
+        const { anchor } = selection
+        const anchorNode = anchor.getNode()
+
+        if (true && anchor.offset !== 0) return false
+
+        const parent = anchorNode.getParent()?.getParent()
+
+        if (parent?.getType() === 'solution' || parent?.getType() === 'task') {
+          // Prevent deletion in TaskNode or SolutionNode
+          event.preventDefault()
+          return true
+        }
+
+        return false
+      },
+      COMMAND_PRIORITY_HIGH,
+    )
   }, [editor])
 
   return null
