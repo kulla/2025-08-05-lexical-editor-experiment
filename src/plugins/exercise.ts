@@ -145,10 +145,7 @@ export function ExerciseNodeTransformations() {
 
   useEffect(() => {
     editor.registerNodeTransform(ExerciseNode, (node) => {
-      console.log('ExerciseNodeTransformations', node)
       const children = node.getChildren()
-
-      console.log('ExerciseNodeTransformations', children)
 
       if (
         children.length !== 2 ||
