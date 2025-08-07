@@ -5,30 +5,18 @@ import {
   type LexicalEditor,
   $getRoot,
   $createParagraphNode,
-  LexicalNode,
+  $createTextNode,
 } from 'lexical'
 import { useEffect } from 'react'
 
 export function insertExercise(editor: LexicalEditor): void {
   editor.update(() => {
-    const container = new ExerciseNode()
-    const task = new TaskNode()
-    const solution = new SolutionNode()
-
-    task.append($createParagraphNode())
-    solution.append($createParagraphNode())
-
-    container.append(task, solution)
-
     const root = $getRoot()
-    root.append(container)
+    root.append($createExerciseNode())
   })
 }
 
 export class ExerciseNode extends ElementNode {
-  removeChild(child: LexicalNode): void {
-    throw new Error('Method not implemented.')
-  }
   static getType(): string {
     return 'exercise'
   }
@@ -140,12 +128,61 @@ export class SolutionNode extends ElementNode {
   }
 }
 
+function $createExerciseNode(): ExerciseNode {
+  const exercise = new ExerciseNode()
+  exercise.append($createTaskNode())
+  exercise.append($createSolutionNode())
+  return exercise
+}
+
+function $createTaskNode(): TaskNode {
+  const node = new TaskNode()
+  const paragraph = $createParagraphNode()
+  node.append(paragraph)
+  paragraph.append($createTextNode('Task content...'))
+  return node
+}
+
+function $createSolutionNode(): SolutionNode {
+  const node = new SolutionNode()
+  const paragraph = $createParagraphNode()
+  node.append(paragraph)
+  paragraph.append($createTextNode('Solution content...'))
+  return node
+}
+
 export function ExerciseNodeTransformations() {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
+    editor.registerNodeTransform(TaskNode, (node) => {
+      const children = node.getChildren()
+
+      if (children.length === 0) {
+        const paragraphNode = $createParagraphNode()
+        paragraphNode.append($createTextNode('Task content...'))
+        node.append(paragraphNode)
+      }
+    })
+
+    editor.registerNodeTransform(SolutionNode, (node) => {
+      const children = node.getChildren()
+
+      if (children.length === 0) {
+        const paragraphNode = $createParagraphNode()
+        paragraphNode.append($createTextNode('Solution content...'))
+        node.append(paragraphNode)
+      }
+    })
+
     editor.registerNodeTransform(ExerciseNode, (node) => {
       const children = node.getChildren()
+
+      console.log('run')
+      console.log(
+        'ExerciseNodeTransformations',
+        children.map((x) => x.getTextContent()),
+      )
 
       if (
         children.length !== 2 ||
@@ -153,10 +190,13 @@ export function ExerciseNodeTransformations() {
         children[1].getType() !== 'solution'
       ) {
         const taskNode =
-          children.find((child) => child.getType() === 'task') || new TaskNode()
+          children.find((child) => child.getType() === 'task') ||
+          $createTaskNode()
         const solutionNode =
           children.find((child) => child.getType() === 'solution') ||
-          new SolutionNode()
+          $createSolutionNode()
+
+        console.log(solutionNode.getTextContent())
 
         for (const child of children) {
           child.remove()
