@@ -7,10 +7,14 @@
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 5px;
-  left: 10px;
+  top: 0px;
+  left: 0px;
   font-size: 15px;
   user-select: none;
   display: inline-block;
   pointer-events: none;
+}
+
+div[contenteditable="true"] > p:first-child {
+  margin-top: 0;
 }

@@ -28,7 +28,7 @@ function Editor() {
           <ContentEditable
             aria-placeholder={'Enter some text...'}
             placeholder={
-              <div className="editor-placeholder">Enter some text...</div>
+              <div className="editor-placeholder p-4">Enter some text...</div>
             }
           />
         }
