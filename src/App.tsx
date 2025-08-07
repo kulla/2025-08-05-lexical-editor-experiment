@@ -12,6 +12,7 @@ import { ContentEditable } from '@lexical/react/LexicalContentEditable'
 import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import ToolbarPlugin from './plugins/ToolbarPlugin'
 
 export default function App() {
   const [editorState, setEditorState] = useState<unknown>(null)
@@ -28,6 +29,7 @@ export default function App() {
       <h1>Lexical text editor:</h1>
       <section className="mb-4 relative border border-gray-300 rounded-lg p-4">
         <LexicalComposer initialConfig={initialConfig}>
+          <ToolbarPlugin />
           <RichTextPlugin
             contentEditable={
               <ContentEditable
