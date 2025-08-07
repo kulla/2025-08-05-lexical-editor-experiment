@@ -137,18 +137,20 @@ function $createExerciseNode(): ExerciseNode {
 
 function $createTaskNode(): TaskNode {
   const node = new TaskNode()
-  const paragraph = $createParagraphNode()
-  node.append(paragraph)
-  paragraph.append($createTextNode('Task content...'))
+  node.append($createParagraphNodeWithText('Task content...'))
   return node
 }
 
 function $createSolutionNode(): SolutionNode {
   const node = new SolutionNode()
-  const paragraph = $createParagraphNode()
-  node.append(paragraph)
-  paragraph.append($createTextNode('Solution content...'))
+  node.append($createParagraphNodeWithText('Solution content...'))
   return node
+}
+
+function $createParagraphNodeWithText(text: string) {
+  const paragraphNode = $createParagraphNode()
+  paragraphNode.append($createTextNode(text))
+  return paragraphNode
 }
 
 export function ExerciseNodeTransformations() {
@@ -159,9 +161,7 @@ export function ExerciseNodeTransformations() {
       const children = node.getChildren()
 
       if (children.length === 0) {
-        const paragraphNode = $createParagraphNode()
-        paragraphNode.append($createTextNode('Task content...'))
-        node.append(paragraphNode)
+        node.append($createParagraphNodeWithText('Task content...'))
       }
     })
 
@@ -169,9 +169,7 @@ export function ExerciseNodeTransformations() {
       const children = node.getChildren()
 
       if (children.length === 0) {
-        const paragraphNode = $createParagraphNode()
-        paragraphNode.append($createTextNode('Solution content...'))
-        node.append(paragraphNode)
+        node.append($createParagraphNodeWithText('Solution content...'))
       }
     })
 
