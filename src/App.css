@@ -7,7 +7,7 @@
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 0px;
+  top: 45px;
   left: 0px;
   font-size: 15px;
   user-select: none;
@@ -26,7 +26,7 @@ div[contenteditable="true"] {
 .toolbar {
   display: flex;
   margin-bottom: 1px;
-  background: #fff;
+  background: #111;
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -67,7 +67,7 @@ div[contenteditable="true"] {
 }
 
 .toolbar button.toolbar-item.active {
-  background-color: rgba(223, 232, 250, 0.3);
+  background-color: rgba(80, 120, 200, 0.3);
 }
 
 .toolbar button.toolbar-item.active i {
@@ -75,12 +75,12 @@ div[contenteditable="true"] {
 }
 
 .toolbar .toolbar-item:hover:not([disabled]) {
-  background-color: #eee;
+  background-color: #333a45;
 }
 
 .toolbar .divider {
   width: 1px;
-  background-color: #eee;
+  background-color: #333a45;
   margin: 0 4px;
 }
 
@@ -90,7 +90,7 @@ div[contenteditable="true"] {
   width: 200px;
   vertical-align: middle;
   font-size: 14px;
-  color: #777;
+  color: #ccc;
   text-overflow: ellipsis;
   width: 70px;
   overflow: hidden;

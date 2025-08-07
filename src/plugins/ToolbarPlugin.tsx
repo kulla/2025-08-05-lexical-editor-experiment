@@ -5,21 +5,26 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import { mergeRegister } from '@lexical/utils'
+import UndoIcon from './icons/arrow-counterclockwise.svg'
+import RedoIcon from './icons/arrow-clockwise.svg'
+import BoldIcon from './icons/type-bold.svg'
+import ItalicIcon from './icons/type-italic.svg'
+import UnderlineIcon from './icons/type-underline.svg'
+
+import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
+import {mergeRegister} from '@lexical/utils'
 import {
   $getSelection,
   $isRangeSelection,
   CAN_REDO_COMMAND,
   CAN_UNDO_COMMAND,
   COMMAND_PRIORITY_LOW,
-  FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {useCallback, useEffect, useRef, useState} from 'react'
 
 function Divider() {
   return <div className="divider" />
@@ -46,7 +51,7 @@ export default function ToolbarPlugin() {
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({ editorState }) => {
+      editor.registerUpdateListener(({editorState}) => {
         editorState.read(() => {
           $updateToolbar()
         })
@@ -89,7 +94,7 @@ export default function ToolbarPlugin() {
         aria-label="Undo"
         type="button"
       >
-        <i className="format undo" />
+        <UndoIcon />
       </button>
       <button
         disabled={!canRedo}
@@ -100,7 +105,7 @@ export default function ToolbarPlugin() {
         aria-label="Redo"
         type="button"
       >
-        <i className="format redo" />
+        <RedoIcon />
       </button>
       <Divider />
       <button
@@ -111,7 +116,7 @@ export default function ToolbarPlugin() {
         aria-label="Format Bold"
         type="button"
       >
-        <i className="format bold" />
+        <BoldIcon />
       </button>
       <button
         onClick={() => {
@@ -121,7 +126,7 @@ export default function ToolbarPlugin() {
         aria-label="Format Italics"
         type="button"
       >
-        <i className="format italic" />
+        <ItalicIcon />
       </button>
       <button
         onClick={() => {
@@ -131,28 +136,7 @@ export default function ToolbarPlugin() {
         aria-label="Format Underline"
         type="button"
       >
-        <i className="format underline" />
-      </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')
-        }}
-        className={`toolbar-item spaced ${isStrikethrough ? 'active' : ''}`}
-        aria-label="Format Strikethrough"
-        type="button"
-      >
-        <i className="format strikethrough" />
-      </button>
-      <Divider />
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')
-        }}
-        className="toolbar-item spaced"
-        aria-label="Left Align"
-        type="button"
-      >
-        <i className="format left-align" />
+        <UnderlineIcon />
       </button>
     </div>
   )
