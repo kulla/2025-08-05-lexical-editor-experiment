@@ -33,7 +33,6 @@ export default function ToolbarPlugin() {
   const [isBold, setIsBold] = useState(false)
   const [isItalic, setIsItalic] = useState(false)
   const [isUnderline, setIsUnderline] = useState(false)
-  const [isStrikethrough, setIsStrikethrough] = useState(false)
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection()
@@ -42,7 +41,6 @@ export default function ToolbarPlugin() {
       setIsBold(selection.hasFormat('bold'))
       setIsItalic(selection.hasFormat('italic'))
       setIsUnderline(selection.hasFormat('underline'))
-      setIsStrikethrough(selection.hasFormat('strikethrough'))
     }
   }, [])
 
@@ -156,36 +154,6 @@ export default function ToolbarPlugin() {
       >
         <i className="format left-align" />
       </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')
-        }}
-        className="toolbar-item spaced"
-        aria-label="Center Align"
-        type="button"
-      >
-        <i className="format center-align" />
-      </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')
-        }}
-        className="toolbar-item spaced"
-        aria-label="Right Align"
-        type="button"
-      >
-        <i className="format right-align" />
-      </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')
-        }}
-        className="toolbar-item"
-        aria-label="Justify Align"
-        type="button"
-      >
-        <i className="format justify-align" />
-      </button>{' '}
     </div>
   )
 }
