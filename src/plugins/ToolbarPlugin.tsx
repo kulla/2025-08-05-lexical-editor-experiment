@@ -11,8 +11,8 @@ import BoldIcon from './icons/type-bold.svg'
 import ItalicIcon from './icons/type-italic.svg'
 import UnderlineIcon from './icons/type-underline.svg'
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {mergeRegister} from '@lexical/utils'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { mergeRegister } from '@lexical/utils'
 import {
   $getSelection,
   $isRangeSelection,
@@ -24,7 +24,8 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical'
-import {useCallback, useEffect, useRef, useState} from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { insertExercise } from './exercise'
 
 function Divider() {
   return <div className="divider" />
@@ -51,7 +52,7 @@ export default function ToolbarPlugin() {
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar()
         })
@@ -137,6 +138,17 @@ export default function ToolbarPlugin() {
         type="button"
       >
         <UnderlineIcon />
+      </button>
+      <button
+        onClick={() => {
+          console.log('Add exercise clicked')
+          insertExercise(editor)
+        }}
+        className="toolbar-item spaced active"
+        aria-label="Add exercise"
+        type="button"
+      >
+        Add Exercise
       </button>
     </div>
   )

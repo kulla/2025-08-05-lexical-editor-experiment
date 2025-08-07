@@ -13,12 +13,14 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import ToolbarPlugin from './plugins/ToolbarPlugin'
+import { ExerciseNode, SolutionNode, TaskNode } from './plugins/exercise'
 
 export default function App() {
   const [editorState, setEditorState] = useState<unknown>(null)
 
   const initialConfig: InitialConfigType = {
     namespace: 'MyEditor',
+    nodes: [ExerciseNode, SolutionNode, TaskNode],
     onError(error) {
       console.error('Editor error:', error)
     },

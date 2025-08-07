@@ -2,6 +2,27 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
+.exercise {
+  background-color: #98773d;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.task {
+  background-color: #444;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.solution {
+  background-color: #222;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
 .editor-placeholder {
   color: #999;
   overflow: hidden;
