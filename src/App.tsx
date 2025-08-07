@@ -27,7 +27,9 @@ function Editor() {
         contentEditable={
           <ContentEditable
             aria-placeholder={'Enter some text...'}
-            placeholder={<div>Enter some text...</div>}
+            placeholder={
+              <div className="editor-placeholder">Enter some text...</div>
+            }
           />
         }
         ErrorBoundary={LexicalErrorBoundary}
@@ -42,7 +44,9 @@ export default function App() {
   return (
     <main className="prose p-10">
       <h1>Lexical text editor:</h1>
-      <Editor />
+      <section className="mb-4 relative border border-gray-300 rounded-lg p-4">
+        <Editor />
+      </section>
     </main>
   )
 }
