@@ -18,3 +18,7 @@
 div[contenteditable="true"] > p:first-child {
   margin-top: 0;
 }
+
+div[contenteditable="true"] {
+  outline: none;
+}
