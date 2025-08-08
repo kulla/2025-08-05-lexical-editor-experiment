@@ -1,3 +1,5 @@
+import * as R from 'ramda'
+
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
   ElementNode,
@@ -11,6 +13,10 @@ import {
   $isRangeSelection,
   KEY_BACKSPACE_COMMAND,
   KEY_DELETE_COMMAND,
+  SELECTION_CHANGE_COMMAND,
+  $setSelection,
+  $createNodeSelection,
+  $createRangeSelection,
 } from 'lexical'
 import { useCallback, useEffect } from 'react'
 
@@ -260,5 +266,68 @@ export function ExerciseNodeTransformations() {
     )
   }, [editor, createPreventListener])
 
+  useEffect(() => {
+    return editor.registerCommand(
+      SELECTION_CHANGE_COMMAND,
+      () => {
+        const selection = $getSelection()
+        if (!$isRangeSelection(selection)) return false
+
+        const anchorPath = R.reverse(selection.anchor.getNode().getParents())
+        const focusPath = R.reverse(selection.focus.getNode().getParents())
+
+        const { commonElements, restFocus, restAnchor } = commonAncestors(
+          anchorPath,
+          focusPath,
+        )
+
+        const commonAncestor = R.last(commonElements)
+
+        if (commonAncestor != null && commonAncestor.getType() === 'exercise') {
+          $selectNode(commonAncestor)
+          return true
+        }
+
+        return false
+      },
+      COMMAND_PRIORITY_HIGH,
+    )
+  }, [editor])
+
   return null
+}
+
+function $selectNode(node: ElementNode) {
+  const parent = node.getParent()
+  if (parent === null) {
+    return
+  }
+  const nodeIndex = parent.getChildren().indexOf(node)
+  const newSelection = $createRangeSelection()
+
+  newSelection.anchor.set(parent.getKey(), nodeIndex, 'element')
+  newSelection.focus.set(parent.getKey(), nodeIndex + 1, 'element')
+
+  $setSelection(newSelection)
+}
+
+function commonAncestors(
+  anchorNodes: Array<ElementNode>,
+  focusNodes: Array<ElementNode>,
+) {
+  const commonElements: Array<ElementNode> = []
+
+  for (let i = 0; i < Math.min(anchorNodes.length, focusNodes.length); i++) {
+    if (anchorNodes[i].is(focusNodes[i])) {
+      commonElements.push(anchorNodes[i])
+    } else {
+      break
+    }
+  }
+
+  return {
+    commonElements,
+    restAnchor: anchorNodes.slice(commonElements.length),
+    restFocus: focusNodes.slice(commonElements.length),
+  }
 }
