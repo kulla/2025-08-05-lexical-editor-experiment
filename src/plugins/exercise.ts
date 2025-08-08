@@ -7,7 +7,6 @@ import {
   $createParagraphNode,
   $createTextNode,
   COMMAND_PRIORITY_HIGH,
-  DELETE_CHARACTER_COMMAND,
   $getSelection,
   $isRangeSelection,
   KEY_BACKSPACE_COMMAND,
