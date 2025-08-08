@@ -5,7 +5,6 @@ import {
   ElementNode,
   type SerializedElementNode,
   type LexicalEditor,
-  $getRoot,
   $createParagraphNode,
   $createTextNode,
   COMMAND_PRIORITY_HIGH,
@@ -19,11 +18,13 @@ import {
   type TextNode,
 } from 'lexical'
 import { useCallback, useEffect } from 'react'
+import { $getSelectedTopLevelNode } from './utils'
 
 export function insertExercise(editor: LexicalEditor): void {
   editor.update(() => {
-    const root = $getRoot()
-    root.append($createExerciseNode())
+    const topLevelNode = $getSelectedTopLevelNode()
+
+    topLevelNode.insertAfter($createExerciseNode())
   })
 }
 
