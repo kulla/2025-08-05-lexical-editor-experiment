@@ -181,12 +181,6 @@ export function ExerciseNodeTransformations() {
     editor.registerNodeTransform(ExerciseNode, (node) => {
       const children = node.getChildren()
 
-      console.log('run')
-      console.log(
-        'ExerciseNodeTransformations',
-        children.map((x) => x.getTextContent()),
-      )
-
       if (
         children.length !== 2 ||
         children[0].getType() !== 'task' ||
@@ -198,8 +192,6 @@ export function ExerciseNodeTransformations() {
         const solutionNode =
           children.find((child) => child.getType() === 'solution') ||
           $createSolutionNode()
-
-        console.log(solutionNode.getTextContent())
 
         for (const child of children) {
           child.remove()
