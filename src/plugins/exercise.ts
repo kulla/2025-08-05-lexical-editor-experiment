@@ -15,8 +15,8 @@ import {
   KEY_DELETE_COMMAND,
   SELECTION_CHANGE_COMMAND,
   $setSelection,
-  $createNodeSelection,
-  $createRangeSelection,
+  type RangeSelection,
+  type TextNode,
 } from 'lexical'
 import { useCallback, useEffect } from 'react'
 
@@ -273,8 +273,12 @@ export function ExerciseNodeTransformations() {
         const selection = $getSelection()
         if (!$isRangeSelection(selection)) return false
 
-        const anchorPath = R.reverse(selection.anchor.getNode().getParents())
-        const focusPath = R.reverse(selection.focus.getNode().getParents())
+        const anchorPath = getPath(selection.anchor.getNode())
+        const focusPath = getPath(selection.focus.getNode())
+
+        console.log('new Check')
+        console.log('anchorPath', anchorPath)
+        console.log('focusPath', focusPath)
 
         const { commonElements, restFocus, restAnchor } = commonAncestors(
           anchorPath,
@@ -283,8 +287,36 @@ export function ExerciseNodeTransformations() {
 
         const commonAncestor = R.last(commonElements)
 
-        if (commonAncestor != null && commonAncestor.getType() === 'exercise') {
-          $selectNode(commonAncestor)
+        console.log('commonAncestor', commonAncestor)
+
+        const newSelection = selection.clone()
+
+        if (commonAncestor != null && commonAncestor instanceof ExerciseNode) {
+          $setSelectionToNode(newSelection, commonAncestor, 'anchor')
+          $setSelectionToNode(newSelection, commonAncestor, 'focus')
+        }
+
+        const restAnchorFirst = R.head(restAnchor)
+
+        console.log('restAnchorFirst', restAnchorFirst)
+
+        if (
+          restAnchorFirst != null &&
+          restAnchorFirst instanceof ExerciseNode
+        ) {
+          $setSelectionToNode(newSelection, restAnchorFirst, 'anchor')
+        }
+
+        const restFocusFirst = R.head(restFocus)
+
+        console.log('restFocusFirst', restFocusFirst)
+
+        if (restFocusFirst != null && restFocusFirst instanceof ExerciseNode) {
+          $setSelectionToNode(newSelection, restFocusFirst, 'focus')
+        }
+
+        if (!selection.is(newSelection)) {
+          $setSelection(newSelection)
           return true
         }
 
@@ -297,25 +329,40 @@ export function ExerciseNodeTransformations() {
   return null
 }
 
-function $selectNode(node: ElementNode) {
-  const parent = node.getParent()
-  if (parent === null) {
+function $setSelectionToNode(
+  selection: RangeSelection,
+  node: ElementNode,
+  attribute: 'anchor' | 'focus',
+) {
+  const { key, index } = getParentKeyAndIndex(node)
+
+  if (key === null || index === null) {
     return
   }
+
+  if (attribute === 'anchor') {
+    selection.anchor.set(key, index, 'element')
+  } else {
+    selection.focus.set(key, index + 1, 'element')
+  }
+}
+
+function getParentKeyAndIndex(
+  node: ElementNode,
+): { key: string; index: number } | { key: null; index: null } {
+  const parent = node.getParent()
+  if (parent === null) {
+    return { key: null, index: null }
+  }
   const nodeIndex = parent.getChildren().indexOf(node)
-  const newSelection = $createRangeSelection()
-
-  newSelection.anchor.set(parent.getKey(), nodeIndex, 'element')
-  newSelection.focus.set(parent.getKey(), nodeIndex + 1, 'element')
-
-  $setSelection(newSelection)
+  return { key: parent.getKey(), index: nodeIndex }
 }
 
 function commonAncestors(
-  anchorNodes: Array<ElementNode>,
-  focusNodes: Array<ElementNode>,
+  anchorNodes: Array<ElementNode | TextNode>,
+  focusNodes: Array<ElementNode | TextNode>,
 ) {
-  const commonElements: Array<ElementNode> = []
+  const commonElements: Array<ElementNode | TextNode> = []
 
   for (let i = 0; i < Math.min(anchorNodes.length, focusNodes.length); i++) {
     if (anchorNodes[i].is(focusNodes[i])) {
@@ -330,4 +377,16 @@ function commonAncestors(
     restAnchor: anchorNodes.slice(commonElements.length),
     restFocus: focusNodes.slice(commonElements.length),
   }
+}
+
+function getPath(node: ElementNode | TextNode | null) {
+  const path: Array<ElementNode | TextNode> = []
+  let currentNode: ElementNode | TextNode | null = node
+
+  while (currentNode !== null) {
+    path.push(currentNode)
+    currentNode = currentNode.getParent()
+  }
+
+  return R.reverse(path)
 }
