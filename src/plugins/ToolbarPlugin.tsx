@@ -14,6 +14,8 @@ import UnderlineIcon from './icons/type-underline.svg'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import { mergeRegister } from '@lexical/utils'
 import {
+  $createParagraphNode,
+  $createTextNode,
   $getSelection,
   $isRangeSelection,
   CAN_REDO_COMMAND,
@@ -26,6 +28,7 @@ import {
 } from 'lexical'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { insertExercise } from './exercise'
+import { $getSelectedTopLevelNode } from './utils'
 
 function Divider() {
   return <div className="divider" />
@@ -146,6 +149,24 @@ export default function ToolbarPlugin() {
         type="button"
       >
         Add Exercise
+      </button>
+      <button
+        onClick={() => {
+          editor.update(() => {
+            const topLevel = $getSelectedTopLevelNode()
+
+            topLevel.insertAfter(
+              $createParagraphNode().append(
+                $createTextNode('Paragraph Node...'),
+              ),
+            )
+          })
+        }}
+        className="toolbar-item spaced active"
+        aria-label="Add Paragraph"
+        type="button"
+      >
+        Add Paragraph
       </button>
     </div>
   )
