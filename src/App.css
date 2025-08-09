@@ -9,11 +9,11 @@
   margin-bottom: 28px;
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
   border: 1px solid #4a3f23;
+  color: #ffe7b3;
 }
 
 .task {
   background: #23201a;
-  color: #ffe7b3;
   padding: 14px 18px;
   border-radius: 10px 10px 0 0;
   margin-bottom: 0;
@@ -23,7 +23,6 @@
 
 .solution {
   background: #28241c;
-  color: #ffe7b3;
   padding: 14px 18px;
   border-radius: 0 0 10px 10px;
   margin-bottom: 0;
