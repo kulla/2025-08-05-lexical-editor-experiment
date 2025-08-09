@@ -142,7 +142,7 @@ export default function ToolbarPlugin() {
       <div>
         <button
           onClick={() => insertExercise(editor)}
-          className="toolbar-item spaced active"
+          className="toolbar-item text"
           aria-label="Add exercise"
           type="button"
         >
@@ -160,7 +160,7 @@ export default function ToolbarPlugin() {
               )
             })
           }}
-          className="toolbar-item spaced active"
+          className="toolbar-item text"
           aria-label="Add Paragraph"
           type="button"
         >
