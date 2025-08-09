@@ -30,10 +30,6 @@ import {useCallback, useEffect, useRef, useState} from 'react'
 import {insertExercise} from './exercise'
 import {$getSelectedTopLevelNode} from './utils'
 
-function Divider() {
-  return <div className="toolbar-divider" />
-}
-
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
   const toolbarRef = useRef(null)
@@ -112,7 +108,6 @@ export default function ToolbarPlugin() {
         >
           <RedoIcon />
         </button>
-        <Divider />
         <button
           onClick={() => {
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')

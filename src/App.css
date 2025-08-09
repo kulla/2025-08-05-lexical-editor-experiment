@@ -133,12 +133,6 @@ div[contenteditable="true"] {
   background-color: #333a45;
 }
 
-.toolbar .divider {
-  width: 1px;
-  background-color: #333a45;
-  margin: 0 4px;
-}
-
 .toolbar .toolbar-item .text {
   display: flex;
   line-height: 20px;
