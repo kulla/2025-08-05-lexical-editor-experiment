@@ -30,6 +30,20 @@
   box-shadow: 0 1px 6px rgba(74, 63, 35, 0.12);
 }
 
+.task:before {
+  content: "Task:";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.solution:before {
+  content: "Solution:";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
 @media (max-width: 600px) {
   .exercise {
     padding: 14px 8px;
