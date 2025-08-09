@@ -281,18 +281,12 @@ export function ExerciseNodeTransformations() {
         const anchorPath = getPath(selection.anchor.getNode())
         const focusPath = getPath(selection.focus.getNode())
 
-        console.log('new Check')
-        console.log('anchorPath', anchorPath)
-        console.log('focusPath', focusPath)
-
         const { commonElements, restFocus, restAnchor } = commonAncestors(
           anchorPath,
           focusPath,
         )
 
         const commonAncestor = R.last(commonElements)
-
-        console.log('commonAncestor', commonAncestor)
 
         const newSelection = selection.clone()
 
@@ -303,8 +297,6 @@ export function ExerciseNodeTransformations() {
 
         const restAnchorFirst = R.head(restAnchor)
 
-        console.log('restAnchorFirst', restAnchorFirst)
-
         if (
           restAnchorFirst != null &&
           restAnchorFirst instanceof ExerciseNode
@@ -313,8 +305,6 @@ export function ExerciseNodeTransformations() {
         }
 
         const restFocusFirst = R.head(restFocus)
-
-        console.log('restFocusFirst', restFocusFirst)
 
         if (restFocusFirst != null && restFocusFirst instanceof ExerciseNode) {
           $setSelectionToNode(newSelection, restFocusFirst, 'focus')
