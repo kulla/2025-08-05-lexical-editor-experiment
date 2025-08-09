@@ -1,17 +1,15 @@
 import './App.css'
 
-import {useEffect, useState} from 'react'
-
-import {AutoFocusPlugin} from '@lexical/react/LexicalAutoFocusPlugin'
+import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import {
   LexicalComposer,
   type InitialConfigType,
 } from '@lexical/react/LexicalComposer'
-import {RichTextPlugin} from '@lexical/react/LexicalRichTextPlugin'
-import {ContentEditable} from '@lexical/react/LexicalContentEditable'
-import {HistoryPlugin} from '@lexical/react/LexicalHistoryPlugin'
-import {LexicalErrorBoundary} from '@lexical/react/LexicalErrorBoundary'
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import ToolbarPlugin from './plugins/ToolbarPlugin'
 import {
   ExerciseNode,
@@ -19,7 +17,7 @@ import {
   SolutionNode,
   TaskNode,
 } from './plugins/exercise'
-import {TreeView} from '@lexical/react/LexicalTreeView'
+import { TreeView } from '@lexical/react/LexicalTreeView'
 
 export default function App() {
   const initialConfig: InitialConfigType = {
@@ -62,5 +60,13 @@ export default function App() {
 function DebugPanel() {
   const [editor] = useLexicalComposerContext()
 
-  return <TreeView editor={editor} treeTypeButtonClassName='button' />
+  return (
+    <TreeView
+      editor={editor}
+      treeTypeButtonClassName="btn btn-soft btn-primary mr-2"
+      timeTravelButtonClassName="btn btn-soft btn-primary"
+      timeTravelPanelButtonClassName="btn btn-soft btn-primary mr-4"
+      timeTravelPanelSliderClassName="range range-primary mr-4"
+    />
+  )
 }
