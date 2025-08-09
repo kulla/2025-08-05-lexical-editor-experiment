@@ -169,23 +169,27 @@ export function ExerciseNodeTransformations() {
   const [editor] = useLexicalComposerContext()
 
   useEffect(() => {
-    editor.registerNodeTransform(TaskNode, (node) => {
+    return editor.registerNodeTransform(TaskNode, (node) => {
       const children = node.getChildren()
 
       if (children.length === 0) {
         node.append($createParagraphNodeWithText('Task content...'))
       }
     })
+  }, [editor])
 
-    editor.registerNodeTransform(SolutionNode, (node) => {
+  useEffect(() => {
+    return editor.registerNodeTransform(SolutionNode, (node) => {
       const children = node.getChildren()
 
       if (children.length === 0) {
         node.append($createParagraphNodeWithText('Solution content...'))
       }
     })
+  }, [editor])
 
-    editor.registerNodeTransform(ExerciseNode, (node) => {
+  useEffect(() => {
+    return editor.registerNodeTransform(ExerciseNode, (node) => {
       const children = node.getChildren()
 
       if (
