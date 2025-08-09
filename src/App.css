@@ -59,8 +59,8 @@
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 45px;
-  left: 0px;
+  top: 87px;
+  left: 2px;
   font-size: 15px;
   user-select: none;
   display: inline-block;
@@ -76,13 +76,11 @@ div[contenteditable="true"] {
 }
 
 .toolbar {
-  display: flex;
   margin-bottom: 1px;
   background: #111;
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  vertical-align: middle;
 }
 
 .toolbar button.toolbar-item {
@@ -92,6 +90,11 @@ div[contenteditable="true"] {
   border-radius: 10px;
   padding: 8px;
   cursor: pointer;
+  vertical-align: middle;
+}
+
+.toolbar > div {
+  display: flex;
   vertical-align: middle;
 }
 
