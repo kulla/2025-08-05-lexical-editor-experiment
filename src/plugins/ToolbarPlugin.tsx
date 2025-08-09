@@ -40,14 +40,21 @@ export default function ToolbarPlugin() {
   const [isUnderline, setIsUnderline] = useState(false)
 
   const $updateToolbar = useCallback(() => {
+    console.log('Updating toolbar')
+
     const selection = $getSelection()
     if ($isRangeSelection(selection)) {
+      console.log(selection.hasFormat('bold'), selection.hasFormat('italic'), selection.hasFormat('underline'))
+
+
       // Update text format
       setIsBold(selection.hasFormat('bold'))
       setIsItalic(selection.hasFormat('italic'))
       setIsUnderline(selection.hasFormat('underline'))
     }
   }, [])
+
+  console.log("rerender", isBold, isItalic, isUnderline)
 
   useEffect(() => {
     return mergeRegister(
