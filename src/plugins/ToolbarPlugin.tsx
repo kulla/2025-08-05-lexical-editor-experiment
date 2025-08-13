@@ -11,8 +11,8 @@ import BoldIcon from './icons/type-bold.svg'
 import ItalicIcon from './icons/type-italic.svg'
 import UnderlineIcon from './icons/type-underline.svg'
 
-import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
-import {mergeRegister} from '@lexical/utils'
+import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
+import { mergeRegister } from '@lexical/utils'
 import {
   $createParagraphNode,
   $createTextNode,
@@ -26,9 +26,9 @@ import {
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
 } from 'lexical'
-import {useCallback, useEffect, useRef, useState} from 'react'
-import {insertExercise} from './exercise'
-import {$getSelectedTopLevelNode} from './utils'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { insertExercise } from './exercise'
+import { $getSelectedTopLevelNode } from './utils'
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -44,8 +44,11 @@ export default function ToolbarPlugin() {
 
     const selection = $getSelection()
     if ($isRangeSelection(selection)) {
-      console.log(selection.hasFormat('bold'), selection.hasFormat('italic'), selection.hasFormat('underline'))
-
+      console.log(
+        selection.hasFormat('bold'),
+        selection.hasFormat('italic'),
+        selection.hasFormat('underline'),
+      )
 
       // Update text format
       setIsBold(selection.hasFormat('bold'))
@@ -54,11 +57,11 @@ export default function ToolbarPlugin() {
     }
   }, [])
 
-  console.log("rerender", isBold, isItalic, isUnderline)
+  console.log('rerender', isBold, isItalic, isUnderline)
 
   useEffect(() => {
     return mergeRegister(
-      editor.registerUpdateListener(({editorState}) => {
+      editor.registerUpdateListener(({ editorState }) => {
         editorState.read(() => {
           $updateToolbar()
         })
@@ -173,6 +176,7 @@ export default function ToolbarPlugin() {
         >
           Add Paragraph
         </button>
-      </div></div>
+      </div>
+    </div>
   )
 }
