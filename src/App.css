@@ -2,13 +2,65 @@
 @plugin "@tailwindcss/typography";
 @plugin "daisyui";
 
+.exercise {
+  background: linear-gradient(135deg, #2d2a22 0%, #3a3322 100%);
+  padding: 24px 28px;
+  border-radius: 14px;
+  margin-bottom: 28px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.22);
+  border: 1px solid #4a3f23;
+  color: #ffe7b3;
+}
+
+.task {
+  background: #23201a;
+  padding: 14px 18px;
+  border-radius: 10px 10px 0 0;
+  margin-bottom: 0;
+  border-bottom: 1px solid #4a3f23;
+  box-shadow: 0 1px 6px rgba(74, 63, 35, 0.18);
+}
+
+.solution {
+  background: #28241c;
+  padding: 14px 18px;
+  border-radius: 0 0 10px 10px;
+  margin-bottom: 0;
+  border-top: 1px dashed #4a3f23;
+  box-shadow: 0 1px 6px rgba(74, 63, 35, 0.12);
+}
+
+.task:before {
+  content: "Task:";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.solution:before {
+  content: "Solution:";
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+@media (max-width: 600px) {
+  .exercise {
+    padding: 14px 8px;
+  }
+  .task,
+  .solution {
+    padding: 10px 8px;
+  }
+}
+
 .editor-placeholder {
   color: #999;
   overflow: hidden;
   position: absolute;
   text-overflow: ellipsis;
-  top: 45px;
-  left: 0px;
+  top: 87px;
+  left: 2px;
   font-size: 15px;
   user-select: none;
   display: inline-block;
@@ -24,13 +76,11 @@ div[contenteditable="true"] {
 }
 
 .toolbar {
-  display: flex;
   margin-bottom: 1px;
   background: #111;
   padding: 4px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  vertical-align: middle;
 }
 
 .toolbar button.toolbar-item {
@@ -40,6 +90,11 @@ div[contenteditable="true"] {
   border-radius: 10px;
   padding: 8px;
   cursor: pointer;
+  vertical-align: middle;
+}
+
+.toolbar > div {
+  display: flex;
   vertical-align: middle;
 }
 
@@ -76,12 +131,6 @@ div[contenteditable="true"] {
 
 .toolbar .toolbar-item:hover:not([disabled]) {
   background-color: #333a45;
-}
-
-.toolbar .divider {
-  width: 1px;
-  background-color: #333a45;
-  margin: 0 4px;
 }
 
 .toolbar .toolbar-item .text {

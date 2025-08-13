@@ -14,6 +14,8 @@ import UnderlineIcon from './icons/type-underline.svg'
 import {useLexicalComposerContext} from '@lexical/react/LexicalComposerContext'
 import {mergeRegister} from '@lexical/utils'
 import {
+  $createParagraphNode,
+  $createTextNode,
   $getSelection,
   $isRangeSelection,
   CAN_REDO_COMMAND,
@@ -25,10 +27,8 @@ import {
   UNDO_COMMAND,
 } from 'lexical'
 import {useCallback, useEffect, useRef, useState} from 'react'
-
-function Divider() {
-  return <div className="divider" />
-}
+import {insertExercise} from './exercise'
+import {$getSelectedTopLevelNode} from './utils'
 
 export default function ToolbarPlugin() {
   const [editor] = useLexicalComposerContext()
@@ -40,14 +40,21 @@ export default function ToolbarPlugin() {
   const [isUnderline, setIsUnderline] = useState(false)
 
   const $updateToolbar = useCallback(() => {
+    console.log('Updating toolbar')
+
     const selection = $getSelection()
     if ($isRangeSelection(selection)) {
+      console.log(selection.hasFormat('bold'), selection.hasFormat('italic'), selection.hasFormat('underline'))
+
+
       // Update text format
       setIsBold(selection.hasFormat('bold'))
       setIsItalic(selection.hasFormat('italic'))
       setIsUnderline(selection.hasFormat('underline'))
     }
   }, [])
+
+  console.log("rerender", isBold, isItalic, isUnderline)
 
   useEffect(() => {
     return mergeRegister(
@@ -85,59 +92,87 @@ export default function ToolbarPlugin() {
 
   return (
     <div className="toolbar" ref={toolbarRef}>
-      <button
-        disabled={!canUndo}
-        onClick={() => {
-          editor.dispatchCommand(UNDO_COMMAND, undefined)
-        }}
-        className="toolbar-item spaced"
-        aria-label="Undo"
-        type="button"
-      >
-        <UndoIcon />
-      </button>
-      <button
-        disabled={!canRedo}
-        onClick={() => {
-          editor.dispatchCommand(REDO_COMMAND, undefined)
-        }}
-        className="toolbar-item"
-        aria-label="Redo"
-        type="button"
-      >
-        <RedoIcon />
-      </button>
-      <Divider />
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
-        }}
-        className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
-        aria-label="Format Bold"
-        type="button"
-      >
-        <BoldIcon />
-      </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
-        }}
-        className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
-        aria-label="Format Italics"
-        type="button"
-      >
-        <ItalicIcon />
-      </button>
-      <button
-        onClick={() => {
-          editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
-        }}
-        className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
-        aria-label="Format Underline"
-        type="button"
-      >
-        <UnderlineIcon />
-      </button>
-    </div>
+      <div>
+        <button
+          disabled={!canUndo}
+          onClick={() => {
+            editor.dispatchCommand(UNDO_COMMAND, undefined)
+          }}
+          className="toolbar-item spaced"
+          aria-label="Undo"
+          type="button"
+        >
+          <UndoIcon />
+        </button>
+        <button
+          disabled={!canRedo}
+          onClick={() => {
+            editor.dispatchCommand(REDO_COMMAND, undefined)
+          }}
+          className="toolbar-item"
+          aria-label="Redo"
+          type="button"
+        >
+          <RedoIcon />
+        </button>
+        <button
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')
+          }}
+          className={`toolbar-item spaced ${isBold ? 'active' : ''}`}
+          aria-label="Format Bold"
+          type="button"
+        >
+          <BoldIcon />
+        </button>
+        <button
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')
+          }}
+          className={`toolbar-item spaced ${isItalic ? 'active' : ''}`}
+          aria-label="Format Italics"
+          type="button"
+        >
+          <ItalicIcon />
+        </button>
+        <button
+          onClick={() => {
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')
+          }}
+          className={`toolbar-item spaced ${isUnderline ? 'active' : ''}`}
+          aria-label="Format Underline"
+          type="button"
+        >
+          <UnderlineIcon />
+        </button>
+      </div>
+      <div>
+        <button
+          onClick={() => insertExercise(editor)}
+          className="toolbar-item text"
+          aria-label="Add exercise"
+          type="button"
+        >
+          Add Exercise
+        </button>
+        <button
+          onClick={() => {
+            editor.update(() => {
+              const topLevel = $getSelectedTopLevelNode()
+
+              topLevel.insertAfter(
+                $createParagraphNode().append(
+                  $createTextNode('Paragraph Node...'),
+                ),
+              )
+            })
+          }}
+          className="toolbar-item text"
+          aria-label="Add Paragraph"
+          type="button"
+        >
+          Add Paragraph
+        </button>
+      </div></div>
   )
 }

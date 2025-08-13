@@ -1,7 +1,5 @@
 import './App.css'
 
-import { useEffect, useState } from 'react'
-
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import {
   LexicalComposer,
@@ -13,12 +11,18 @@ import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
 import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import ToolbarPlugin from './plugins/ToolbarPlugin'
+import {
+  ExerciseNode,
+  ExerciseNodeTransformations,
+  SolutionNode,
+  TaskNode,
+} from './plugins/exercise'
+import { TreeView } from '@lexical/react/LexicalTreeView'
 
 export default function App() {
-  const [editorState, setEditorState] = useState<unknown>(null)
-
   const initialConfig: InitialConfigType = {
     namespace: 'MyEditor',
+    nodes: [ExerciseNode, SolutionNode, TaskNode],
     onError(error) {
       console.error('Editor error:', error)
     },
@@ -27,8 +31,8 @@ export default function App() {
   return (
     <main className="prose p-10">
       <h1>Lexical text editor:</h1>
-      <section className="mb-4 relative border border-gray-300 rounded-lg p-4">
-        <LexicalComposer initialConfig={initialConfig}>
+      <LexicalComposer initialConfig={initialConfig}>
+        <div className="mb-4 relative border border-gray-300 rounded-lg p-4">
           <ToolbarPlugin />
           <RichTextPlugin
             contentEditable={
@@ -45,25 +49,24 @@ export default function App() {
           />
           <HistoryPlugin />
           <AutoFocusPlugin />
-          <MyOnChangePlugin onChange={setEditorState} />
-        </LexicalComposer>
-      </section>
-      <h2>Editor state:</h2>
-      <pre className="p-4 rounded-lg">
-        {editorState ? JSON.stringify(editorState, null, 2) : 'No state yet'}
-      </pre>
+          <ExerciseNodeTransformations />
+        </div>
+        <DebugPanel />
+      </LexicalComposer>
     </main>
   )
 }
 
-function MyOnChangePlugin({
-  onChange,
-}: { onChange: (editorState: unknown) => void }) {
+function DebugPanel() {
   const [editor] = useLexicalComposerContext()
-  useEffect(() => {
-    return editor.registerUpdateListener(({ editorState }) => {
-      onChange(editorState)
-    })
-  }, [editor, onChange])
-  return null
+
+  return (
+    <TreeView
+      editor={editor}
+      treeTypeButtonClassName="btn btn-soft btn-primary mr-2"
+      timeTravelButtonClassName="btn btn-soft btn-primary"
+      timeTravelPanelButtonClassName="btn btn-soft btn-primary mr-4"
+      timeTravelPanelSliderClassName="range range-primary mr-4"
+    />
+  )
 }
