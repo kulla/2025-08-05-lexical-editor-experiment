@@ -66,14 +66,6 @@ export class ExerciseNode extends ElementNode {
   canBeEmpty(): boolean {
     return false
   }
-
-  static childrenCanBeElements(): boolean {
-    return true
-  }
-
-  static getAllowedChildTypes(): Array<string> {
-    return ['exercise', 'solution']
-  }
 }
 
 export class TaskNode extends ElementNode {
