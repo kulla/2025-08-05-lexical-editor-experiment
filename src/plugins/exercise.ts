@@ -98,6 +98,14 @@ export class TaskNode extends ElementNode {
       version: 1,
     }
   }
+
+  isParentRequired(): boolean {
+    return true
+  }
+
+  createParentElementNode(): ElementNode {
+    return new ExerciseNode()
+  }
 }
 
 export class SolutionNode extends ElementNode {
@@ -130,6 +138,14 @@ export class SolutionNode extends ElementNode {
       version: 1,
     }
   }
+
+  isParentRequired(): boolean {
+    return true
+  }
+
+  createParentElementNode(): ElementNode {
+    return new ExerciseNode()
+  }
 }
 
 function $createExerciseNode(): ExerciseNode {
@@ -159,27 +175,6 @@ function $createParagraphNodeWithText(text: string) {
 
 export function ExerciseNodeTransformations() {
   const [editor] = useLexicalComposerContext()
-
-  useEffect(() => {
-    editor.registerNodeTransform(TaskNode, (node) => {
-      const parent = node.getParent()
-
-      if (parent == null) return
-      if (parent.getType() === 'exercise') return
-
-      const nextSibling = node.getNextSibling()
-      const solutionNode =
-        nextSibling?.getType() === 'solution'
-          ? nextSibling
-          : $createSolutionNode()
-
-      const taskNode = new ExerciseNode()
-
-      node.insertBefore(taskNode)
-      taskNode.append(node)
-      taskNode.append(solutionNode)
-    })
-  }, [editor])
 
   useEffect(() => {
     editor.registerNodeTransform(ExerciseNode, (node) => {
