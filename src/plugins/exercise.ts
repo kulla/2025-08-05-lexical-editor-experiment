@@ -59,10 +59,6 @@ export class ExerciseNode extends ElementNode {
     return false
   }
 
-  canInsertAfter(): boolean {
-    return true
-  }
-
   canBeEmpty(): boolean {
     return false
   }
