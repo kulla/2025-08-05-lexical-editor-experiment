@@ -1,6 +1,6 @@
-import {defineConfig} from '@rsbuild/core'
-import {pluginReact} from '@rsbuild/plugin-react'
-import {pluginSvgr} from '@rsbuild/plugin-svgr'
+import { defineConfig } from '@rsbuild/core'
+import { pluginReact } from '@rsbuild/plugin-react'
+import { pluginSvgr } from '@rsbuild/plugin-svgr'
 
 export default defineConfig({
   html: {
@@ -9,5 +9,8 @@ export default defineConfig({
   output: {
     assetPrefix: '/2025-08-05-lexical-editor-experiment/',
   },
-  plugins: [pluginReact(), pluginSvgr({svgrOptions: {exportType: 'default'}})],
+  plugins: [
+    pluginReact(),
+    pluginSvgr({ svgrOptions: { exportType: 'default' } }),
+  ],
 })
