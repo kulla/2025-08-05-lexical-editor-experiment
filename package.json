@@ -28,7 +28,7 @@
     "@types/ramda": "^0.31.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
-    "daisyui": "^5.0.50",
+    "daisyui": "^5.1.1",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2"
   }
