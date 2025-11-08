@@ -29,7 +29,7 @@
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "daisyui": "^5.3.10",
-    "tailwindcss": "^4.1.11",
+    "tailwindcss": "^4.1.17",
     "typescript": "^5.9.2"
   }
 }
