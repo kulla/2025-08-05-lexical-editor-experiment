@@ -2,22 +2,22 @@ import './App.css'
 
 import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin'
 import {
-  LexicalComposer,
   type InitialConfigType,
+  LexicalComposer,
 } from '@lexical/react/LexicalComposer'
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
-import { ContentEditable } from '@lexical/react/LexicalContentEditable'
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
-import ToolbarPlugin from './plugins/ToolbarPlugin'
+import { ContentEditable } from '@lexical/react/LexicalContentEditable'
+import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary'
+import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin'
+import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin'
+import { TreeView } from '@lexical/react/LexicalTreeView'
 import {
   ExerciseNode,
   ExerciseNodeTransformations,
   SolutionNode,
   TaskNode,
 } from './plugins/exercise'
-import { TreeView } from '@lexical/react/LexicalTreeView'
+import ToolbarPlugin from './plugins/ToolbarPlugin'
 
 export default function App() {
   const initialConfig: InitialConfigType = {

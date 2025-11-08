@@ -1,22 +1,21 @@
-import * as R from 'ramda'
-
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext'
 import {
-  ElementNode,
-  type SerializedElementNode,
-  type LexicalEditor,
   $createParagraphNode,
   $createTextNode,
-  COMMAND_PRIORITY_HIGH,
   $getSelection,
   $isRangeSelection,
+  $setSelection,
+  COMMAND_PRIORITY_HIGH,
+  ElementNode,
   KEY_BACKSPACE_COMMAND,
   KEY_DELETE_COMMAND,
-  SELECTION_CHANGE_COMMAND,
-  $setSelection,
+  type LexicalEditor,
   type RangeSelection,
+  SELECTION_CHANGE_COMMAND,
+  type SerializedElementNode,
   type TextNode,
 } from 'lexical'
+import * as R from 'ramda'
 import { useCallback, useEffect } from 'react'
 import { $getSelectedTopLevelNode } from './utils'
 
